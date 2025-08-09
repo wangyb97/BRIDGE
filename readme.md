@@ -1,6 +1,7 @@
 # BRIDGE: Multimodal RBP Binding Prediction
 
 ## Overview
+![BRIDGE framework](framework.png)
 
 BRIDGE is an advanced multimodal deep learning framework designed to predict RNA–protein binding landscapes with high accuracy and robust cross-cell-type generalization. It leverages a unified architecture that integrates:
 
