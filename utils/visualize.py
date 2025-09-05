@@ -10,9 +10,6 @@ import utils.datautils as datautils
 from PIL import Image
 
 
-# acgu_path = '/home/zhuhaoran/MyNet/acgu.npz'
-# chars = np.load(acgu_path,allow_pickle=True)['data']
-
 def inference(args, model, device, test_loader):
     model.eval()
     p_all = []
@@ -79,9 +76,6 @@ def seq_logo(pwm, height=30, nt_width=10, norm=0, alphabet='rna', colormap='stan
                 continue
             # resized dimensions of image
             nt_img = imresize(chars[index[j]], output_shape=(nt_height[j], nt_width))*255
-            # if j==0:
-            #     print(nt_img[:,:,0])
-             #   print(chars[index[j]][:,:,0])
             # determine location of image
             height_range = range(remaining_height-nt_height[j], remaining_height)
             width_range = range(i*nt_width, i*nt_width+nt_width)

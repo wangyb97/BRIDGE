@@ -201,7 +201,6 @@ def dealwithdata2(seq):
     tris1 = get_1_trids()
     tris2 = get_2_trids()
     tris3 = get_3_trids()
-    # tris4 = get_4_trids()
     dataX = []
     dataY = []
     line = line.replace('T', 'U').replace('N', 'A').strip()
@@ -212,10 +211,10 @@ def dealwithdata2(seq):
     probMatr_NDPCP = np.column_stack((probMatr_NDCP,probMatr_DPCP))
     kmer1 = coden(line.strip(),1,tris1)
     kmer2 = coden(line.strip(),2,tris2) 
-    kmer3 = coden(line.strip(),3,tris3) # (101, 64)
-    Kmer = np.hstack((kmer1,kmer2,kmer3)) # (101, 84)
-    Feature_Encoding = np.column_stack((probMatr_NDPCP,Kmer))  # (101, 99)
+    kmer3 = coden(line.strip(),3,tris3)
+    Kmer = np.hstack((kmer1,kmer2,kmer3))
+    Feature_Encoding = np.column_stack((probMatr_NDPCP,Kmer))
     dataX.append(Feature_Encoding.tolist())
     dataX = np.array(dataX)
     
-    return dataX # (1, 101, 99)
+    return dataX

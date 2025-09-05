@@ -48,47 +48,6 @@ class Conv1d(nn.Module):
 
 from torch_conv_kan.kan_convs import FastKANConv1DLayer
 
-# class SimpleConvKAN(nn.Module):
-#     def __init__(
-#             self,
-#             input_channels,
-#             out_channels,
-#             num_classes = 1,
-#             spline_order = 3,
-#             kernel_size = 3,
-#             groups: int = 1,
-#             same_padding=True, 
-#             bn=True):
-#         super(SimpleConvKAN, self).__init__()
-#         p0 = int((kernel_size - 1) / 2) if same_padding else 0
-#         self.layers = nn.Sequential(
-#             FastKANConv1DLayer(input_channels, out_channels, kernel_size=kernel_size, groups=groups, padding=p0, stride=1, dilation=1,grid_size=2),
-#             # nn.BatchNorm1d(out_channels) if bn else None,
-#             FastKANConv1DLayer(out_channels, out_channels, kernel_size=kernel_size, groups=groups, padding=p0, stride=1, dilation=1,grid_size=4),
-#             # nn.BatchNorm1d(out_channels) if bn else None,
-#             FastKANConv1DLayer(out_channels, out_channels, kernel_size=kernel_size, groups=groups, padding=p0, stride=1, dilation=1,grid_size=8),
-#             # nn.BatchNorm1d(out_channels) if bn else None,
-#             # KABNConv1DLayer(out_channels, out_channels, kernel_size=kernel_size, groups=groups, padding=p0, stride=1, dilation=1),
-#             # KALNConv1DLayer(out_channels, out_channels, kernel_size=kernel_size, groups=groups, padding=p0, stride=3, dilation=1),
-#             # KANConv1DLayer(out_channels, out_channels, spline_order=spline_order, kernel_size=kernel_size, groups=groups, padding=p0, stride=1, dilation=1),
-#             nn.AdaptiveAvgPool1d(1)
-#         )
-#         self.bn = nn.BatchNorm1d(out_channels) if bn else None
-        
-#         # self.output = nn.Linear(out_channels, num_classes)
-#         self.drop = nn.Dropout(p=0.3)
-        
-
-#     def forward(self, x):
-#         x = self.layers(x)
-#         # print(x.shape)
-#         # x = torch.flatten(x, 1)
-#         # if self.bn is not None:
-#         #     x = self.bn(x)
-#         x = self.drop(x)
-#         # x = self.output(x)
-#         return x
-    
     
 class SimpleConvKAN_1layer(nn.Module):
     def __init__(

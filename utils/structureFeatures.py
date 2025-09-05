@@ -1,7 +1,5 @@
 import argparse
 import os
-import sys
-# from keras.preprocessing.sequence import pad_sequences
 import re
 import linecache
 import numpy as np
@@ -16,7 +14,7 @@ encoding_seq = OrderedDict([
     ('C', [0, 1, 0, 0]),
     ('G', [0, 0, 1, 0]),
     ('T', [0, 0, 0, 1]),
-    ('N', [0.25, 0.25, 0.25, 0.25]),  # A or C or G or T
+    ('N', [0.25, 0.25, 0.25, 0.25]),
 ])
 
 seq_encoding_keys = list(encoding_seq.keys())
@@ -60,7 +58,6 @@ def read_combined_profile(file_path):
     secondary_structure_list = []
     filelines = linecache.getlines(file_path)
     file_length = len(filelines)
-    # print(file_length)
     while i <= file_length - 1:
         pairedness = re.sub('[\s+]', ' ', filelines[i + 1].strip())
         hairpin_loop = re.sub('[\s+]', ' ', filelines[i + 2].strip())
@@ -68,8 +65,6 @@ def read_combined_profile(file_path):
         multi_loop = re.sub('[\s+]', ' ', filelines[i + 4].strip())
         external_region = re.sub('[\s+]', ' ', filelines[i + 5].strip())
         combine_array = concatenate(pairedness, hairpin_loop, internal_loop, multi_loop, external_region)
-        # X = pad_sequences(combine_array, maxlen=int(160), dtype=np.str, value=seq_encoding_keys.index('UNK'),
-        #                   padding='post')
         secondary_structure_list.append(combine_array)
         i = i + 6
 

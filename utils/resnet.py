@@ -8,14 +8,14 @@ class SEBlock(nn.Module):
         super(SEBlock, self).__init__()
         self.avg_pool = nn.AdaptiveAvgPool1d(1)
         self.fc = nn.Sequential(
-            nn.Linear(channel, channel * reduction),  # //意思是整数除法
+            nn.Linear(channel, channel * reduction),
             nn.ReLU(inplace=True),
             nn.Linear(channel * reduction, channel),
             nn.Sigmoid()
         )
 
     def forward(self, x):
-        b, c, _ = x.size()  # .shape属性和.size()方法是一个东西
+        b, c, _ = x.size()
         y = self.avg_pool(x).view(b, c)
         y = self.fc(y).view(b, c, 1)
         return y
@@ -26,14 +26,14 @@ class SEBlock_(nn.Module):
         super(SEBlock_, self).__init__()
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
         self.fc = nn.Sequential(
-            nn.Linear(channel, channel // reduction),  # //意思是整数除法
+            nn.Linear(channel, channel // reduction),
             nn.ReLU(inplace=True),
             nn.Linear(channel // reduction, channel),
             nn.Sigmoid()
         )
 
     def forward(self, x):
-        b, c, _, _ = x.size()  # .shape属性和.size()方法是一个东西
+        b, c, _, _ = x.size()
         y = self.avg_pool(x).view(b, c)
         y = self.fc(y).view(b, c, 1, 1)
         return y
@@ -73,7 +73,6 @@ class ResidualBlock2D_(nn.Module):
 
         if self.downsample:
             identity = self.downsample(x)
-        # print(out.shape, identity.shape)
         out += identity
         out = self.relu(out)
 
@@ -194,7 +193,6 @@ class ResidualBlock2D(nn.Module):
 
         if self.downsample:
             identity = self.down_sample(x)
-        # print(out.shape, identity.shape)
         out += identity
         out = self.relu(out)
 

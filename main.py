@@ -245,9 +245,9 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Welcome to BRIDGE!')
-    parser.add_argument('--data_file', default='TIA1_Hela', type=str, help='RBP to train or validate')
+    parser.add_argument('--data_file', default='AUH_HepG2', type=str, help='RBP to train or validate')
     parser.add_argument('--data_path', default='/home/wangyubo/code/BRIDGE/dataset', type=str, help='The data path')
-    parser.add_argument('--Transformer_path', default='/home/wangyubo/code/BRIDGE/BERT_Model', type=str, help='BERT model path, in case you have another BERT')
+    parser.add_argument('--Transformer_path', default='/home/wangyubo/code/BRIDGE/RBPformer', type=str, help='BERT model path, in case you have another BERT')
     parser.add_argument('--model_save_path', default='/home/wangyubo/code/BRIDGE/results/model', type=str, help='Save the trained model for dynamic prediction')
 
     parser.add_argument('--train', default=False, action='store_true')

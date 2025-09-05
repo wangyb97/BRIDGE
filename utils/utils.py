@@ -164,7 +164,6 @@ class myDataset2(Dataset):
         return len(self.embedding)
 
 def read_csv(path):
-    # load sequences
     df = pd.read_csv(path, sep='\t', header=None)
     df = df.loc[df[0] != "Type"]
 
@@ -180,51 +179,6 @@ def read_csv(path):
     structs = df[Str].to_numpy()
     targets = df[label].to_numpy().astype(np.float32).reshape(-1, 1)
     return sequences, structs, targets
-
-
-# def read_csv(path):
-#     # Load sequences
-#     df = pd.read_csv(path, sep='\t', header=None)
-#     df = df.loc[df[0] != "Type"]
-
-#     # Column indices
-#     Type = 0
-#     loc = 1
-#     Seq = 2
-#     Str = 3
-#     Score = 4
-#     label = 5
-
-#     # Separate rows with label 1 and label 0
-#     df_label_1 = df[df[label] == 1]
-#     df_label_0 = df[df[label] == 0]
-
-#     # Determine the number of samples to extract
-#     num_label_1 = len(df_label_1)
-#     num_label_0 = min(num_label_1, len(df_label_0))  # Ensure we have enough 0 labels
-
-#     # # Sample rows with label 0
-#     # df_label_0_sampled = df_label_0.sample(num_label_0, random_state=42)
-
-#     # # Combine the dataframes
-#     # df_balanced = pd.concat([df_label_1, df_label_0_sampled])
-
-#     # # Shuffle the dataframe to mix 0 and 1 labels
-#     # df_balanced = df_balanced.sample(frac=1, random_state=42).reset_index(drop=True)
-    
-#     #  Extract the first 'num_label_0' rows with label 0
-#     df_label_0_sampled = df_label_0.head(num_label_0)
-
-#     # Combine the dataframes
-#     df_balanced = pd.concat([df_label_1, df_label_0_sampled])
-
-#     # Extract sequences, structures, and targets
-#     sequences = df_balanced[Seq].to_numpy()
-#     structs = df_balanced[Str].to_numpy()
-#     targets = df_balanced[label].to_numpy().astype(np.float32).reshape(-1, 1)
-
-#     return sequences, structs, targets
-
 
 
 def read_csv_with_name(path):
@@ -262,7 +216,6 @@ def convert_one_hot(sequence, max_length=None):
         seq_length = len(seq)
         one_hot = np.zeros((4,seq_length))
         index = [j for j in range(seq_length) if seq[j] == 'A']
-        # print(index)
         one_hot[0,index] = 1
         index = [j for j in range(seq_length) if seq[j] == 'C']
         one_hot[1,index] = 1

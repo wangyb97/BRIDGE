@@ -172,34 +172,19 @@ def tfnp(label, prediction):
 
 
 def calculate_metrics(label, prediction, objective):
-    """calculate metrics for classification"""
-    # import pdb; pdb.set_trace()
 
     if (objective == "binary") | (objective == 'hinge'):
         ndim = np.ndim(label)
-        # if ndim == 1:
-        #    label = one_hot_labels(label)
         correct = accuracy(label, prediction)
         auc_roc, roc_curves = roc(label, prediction)
         auc_pr, pr_curves = pr(label, prediction)
-        # print(label,prediction)
-        # print(auc_roc,type(auc_roc))
         f1 = f1_sc(label, prediction)
         mcc = mcc_sc(label, prediction)
-        # print(f1,type(f1),mcc,type(mcc))
-        # import pdb; pdb.set_trace()
         if ndim == 2:
             prediction = prediction[:, 0]
             label = label[:, 0]
-        # pred_class = prediction[:,0]>0.5
         pred_class = prediction > 0.5
-        # tp, tn, fp, fn = tfnp(label[:,0], pred_class)
         tp, tn, fp, fn = tfnp(label, pred_class)
-        # print(label.shape, pred_class.shape)
-        # print(type(label), type(pred_class))
-        
-        # tn8, fp8, fn8, tp8 = tfnp(label[:,0], prediction[prediction>0.8][:,0])
-        # import pdb; pdb.set_trace()
         mean = [np.nanmean(correct), np.nanmean(auc_roc), np.nanmean(auc_pr), np.nanmean(f1), np.nanmean(mcc), tp, tn, fp, fn]
         std = [np.nanstd(correct), np.nanstd(auc_roc), np.nanstd(auc_pr), np.nanstd(f1), np.nanstd(mcc)]
 
@@ -219,31 +204,21 @@ def calculate_metrics(label, prediction, objective):
 
     elif (objective == 'squared_error') | (objective == 'kl_divergence') | (objective == 'cdf'):
         ndim = np.ndim(label)
-        # if ndim == 1:
-        #    label = one_hot_labels(label)
         label[label < 0.5] = 0
         label[label >= 0.5] = 1
-        # import pdb; pdb.set_trace()
 
         correct = accuracy(label, prediction)
         auc_roc, roc_curves = roc(label, prediction)
         auc_pr, pr_curves = pr(label, prediction)
-        # import pdb; pdb.set_trace()
         if ndim == 2:
             prediction = prediction[:, 0]
             label = label[:, 0]
-        # pred_class = prediction[:,0]>0.5
         pred_class = prediction > 0.5
-        # tp, tn, fp, fn = tfnp(label[:,0], pred_class)
         tp, tn, fp, fn = tfnp(label, pred_class)
-        # mean = [np.nanmean(correct), np.nanmean(auc_roc), np.nanmean(auc_pr),tp, tn, fp, fn]
-        # std = [np.nanstd(correct), np.nanstd(auc_roc), np.nanstd(auc_pr)]
 
         # squared_error
         corr = pearsonr(label, prediction)
         rsqr, slope = rsquare(label, prediction)
-        # mean = [np.nanmean(corr), np.nanmean(rsqr), np.nanmean(slope)]
-        # std = [np.nanstd(corr), np.nanstd(rsqr), np.nanstd(slope)]
 
         mean = [np.nanmean(correct), np.nanmean(auc_roc), np.nanmean(auc_pr), tp, tn, fp, fn, np.nanmean(corr),
                 np.nanmean(rsqr), np.nanmean(slope)]
