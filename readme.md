@@ -25,21 +25,21 @@ BRIDGE: Bridging Sequence–Structure Motifs and Genetic Variants for Genome-wid
 
 ## 📑 Table of Contents
 
-- [🔬 Overview](#-overview)
-- [⚙️ Environment Setup](#️-environment-setup)
-  - [Tested Environment](#-tested-environment)
-  - [Prerequisites](#-1-prerequisites)
-  - [Recommended installation (Conda)](#-2-recommended-installation-conda)
-- [📂 Data & Resources](#-data--resources)
-- [🚀 Usage](#-usage)
-  - [Train](#-1-train)
-  - [Validate](#-2-validate-evaluate-a-saved-model)
-  - [Dynamic Transfer Prediction](#-3-dynamic-transfer-prediction-crosscell-type)
-  - [Variant-Aware Scoring](#-4-variant-aware-scoring)
-  - [Motif construction](#-5-motif-construction)
-- [📜 License](#-license)
-- [📚 Citation](#-citation)
-- [🤝 Acknowledgements](#-acknowledgements)
+- [Overview](#overview)
+- [Environment Setup](#environment-setup)
+  - [Tested Environment](#tested-environment)
+  - [Prerequisites](#1-prerequisites)
+  - [Recommended installation (Conda)](#2-recommended-installation-conda)
+- [Data & Resources](#data--resources)
+- [Usage](#usage)
+  - [Train](#1-train)
+  - [Validate](#2-validate-evaluate-a-saved-model)
+  - [Dynamic Transfer Prediction](#3-dynamic-transfer-prediction-crosscell-type)
+  - [Variant-Aware Scoring](#4-variant-aware-scoring)
+  - [Motif construction](#5-motif-construction)
+- [License](#license)
+- [Citation](#citation)
+- [Acknowledgements](#acknowledgements)
 
 ## 🔬Overview
 
