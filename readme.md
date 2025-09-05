@@ -26,7 +26,7 @@ BRIDGE: Bridging Sequence–Structure Motifs and Genetic Variants for Genome-wid
 ## 📑 Table of Contents
 
 - [Overview](#overview)
-- [Environment Setup](#environment-setup)
+- [Environment Setup](#%EF%B8%8Fenvironment-setup)
   - [Tested Environment](#tested-environment)
   - [Prerequisites](#1-prerequisites)
   - [Recommended installation (Conda)](#2-recommended-installation-conda)
