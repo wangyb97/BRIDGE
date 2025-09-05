@@ -6,17 +6,11 @@ import torch.nn as nn
 from .fast_kan_conv import FastKANConv1DLayer, FastKANConv2DLayer, FastKANConv3DLayer
 from .kabn_conv import KABNConv1DLayer, KABNConv2DLayer, KABNConv3DLayer
 from .kacn_conv import KACNConv1DLayer, KACNConv2DLayer, KACNConv3DLayer
-from .kagn_bottleneck_conv import BottleNeckKAGNConv1DLayer, BottleNeckKAGNConv2DLayer, BottleNeckKAGNConv3DLayer
-from .kagn_bottleneck_conv import MoEBottleNeckKAGNConv1DLayer, MoEBottleNeckKAGNConv2DLayer, \
-    MoEBottleNeckKAGNConv3DLayer
 from .kagn_conv import KAGNConv1DLayer, KAGNConv2DLayer, KAGNConv3DLayer
 from .kajn_conv import KAJNConv1DLayer, KAJNConv2DLayer, KAJNConv3DLayer
 from .kaln_conv import KALNConv1DLayer, KALNConv2DLayer, KALNConv3DLayer
 from .kan_conv import KANConv1DLayer, KANConv2DLayer, KANConv3DLayer
-from .relukan_bottleneck_conv import BottleNeckReLUKANConv1DLayer, BottleNeckReLUKANConv2DLayer, \
-    BottleNeckReLUKANConv3DLayer
 from .relukan_conv import ReLUKANConv1DLayer, ReLUKANConv2DLayer, ReLUKANConv3DLayer
-from .wav_kan import WavKANConv1DLayer, WavKANConv2DLayer, WavKANConv3DLayer
 
 
 class SelfKANtentionND(nn.Module):

@@ -30,6 +30,7 @@ class ADPNetblock(nn.Module):
     def __init__(self, filter_num: int, kernel_size: int, dilation: int) -> None:
         super(ADPNetblock, self).__init__()
         self.conv = Conv1d(filter_num, filter_num, kernel_size=kernel_size, stride=1, dilation=dilation, same_padding=False)
+        self.conv1 = Conv1d(filter_num, filter_num, kernel_size=kernel_size, stride=1, dilation=dilation, same_padding=False)
         self.max_pooling = nn.MaxPool1d(kernel_size=(3, ), stride=2)
         self.padding_conv = nn.ConstantPad1d(((kernel_size-1)//2)*dilation, 0)
         self.padding_pool = nn.ConstantPad1d((0, 1), 0)
@@ -50,7 +51,7 @@ class ADPNetblock(nn.Module):
         x = self.padding_conv(px)
         x = self.conv(x)
         x = self.padding_conv(x)
-        x = self.conv(x)
+        x = self.conv1(x)
         x = x + px
         return x
 
@@ -74,6 +75,10 @@ class ADPNet(nn.Module):
         
         # Initial convolution layers
         self.conv = Conv1d(
+            filter_num, filter_num, self.kernel_size_list[0],
+            stride=1, dilation=1, same_padding=False
+        )
+        self.conv1 = Conv1d(
             filter_num, filter_num, self.kernel_size_list[0],
             stride=1, dilation=1, same_padding=False
         )
@@ -111,7 +116,7 @@ class ADPNet(nn.Module):
         x = self.padding_conv(x)
         x = self.conv(x)
         x = self.padding_conv(x)
-        x = self.conv(x)
+        x = self.conv1(x)
         
         # Pyramid convolution blocks with downsampling until length <= 2
         i = 0

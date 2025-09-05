@@ -139,7 +139,7 @@ def plot_saliency(X, W, nt_width=100, norm_factor=3, str_null=None, outdir="resu
     ax = fig.add_subplot(gs[0, 0])
     ax.axis('off')
     ax.imshow(img_seq_sal_logo)
-    plt.text(x=trace_width-400,y=10, s='HDRNet', fontsize=4)
+    plt.text(x=trace_width-400,y=10, s='BRIDGE', fontsize=4)
 
     ax = fig.add_subplot(gs[1, 0]) 
     ax.axis('off')

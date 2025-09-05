@@ -241,7 +241,7 @@ def main(args):
         best_acc = met.acc
         best_auprc = met.prc
         best_mcc = met.mcc
-        print("{} auc: {:.4f} acc: {:.4f} auprc: {:.4f} mcc: {:.4f}".format(file_name, best_auc, best_acc, best_auprc, best_mcc))
+        print("Dynamic prediction mode. {} auc: {:.4f} acc: {:.4f} auprc: {:.4f} mcc: {:.4f}".format(file_name, best_auc, best_acc, best_auprc, best_mcc))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Welcome to BRIDGE!')
@@ -260,7 +260,6 @@ if __name__ == '__main__':
     
     parser.add_argument('--device_num', type=int, default=0)
     parser.add_argument('--lr', type=float, default=0.001)
-    parser.add_argument('--motif_path', default='/home/wangyubo/code/PRIESSTESS/output_right', type=str, help='The motif path')
     parser.add_argument('--fasta_sequence_path', required=False, type=str)
     parser.add_argument('--variant_out_file', required=False, type=str)
     

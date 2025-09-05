@@ -153,7 +153,7 @@ def nd(seq, seq_length):
 
 
 def dealwithdata(protein):
-    """Batch-encode all sequences from *protein*.fa located in fasta/.
+    """Batch-encode all sequences from {protein}_pos.fa and {protein}_neg.fa in ./dataset/.
 
     Parameters
     ----------
@@ -164,21 +164,58 @@ def dealwithdata(protein):
     tris2 = get_2_trids()
     tris3 = get_3_trids()
     dataX = []
-    with open('/home/wangyubo/code/HDRNet/fasta/' + protein + '.fa') as f:
-        for line in f:
-            if '>' not in line:
-                line = line.replace('T', 'U').replace('N', 'A').strip()
-                probMatr = processFastaFile(line)
-                probMatr_ND = nd(line,seq_length)
-                probMatr_NDCP = np.column_stack((probMatr,probMatr_ND))
-                probMatr_DPCP = dpcp(line)/101
-                probMatr_NDPCP = np.column_stack((probMatr_NDCP,probMatr_DPCP))
-                kmer1 = coden(line.strip(),1,tris1)
-                kmer2 = coden(line.strip(),2,tris2)
-                kmer3 = coden(line.strip(),3,tris3)
-                Kmer = np.hstack((kmer1,kmer2,kmer3))
-                Feature_Encoding = np.column_stack((probMatr_NDPCP,Kmer))
-                dataX.append(Feature_Encoding.tolist())
-    dataX = np.array(dataX)
-    f.close()
+
+    for label in ['pos', 'neg']:
+        fasta_path = f'./dataset/{protein}_{label}.fa'
+        with open(fasta_path, 'r') as f:
+            lines = f.readlines()
+
+        for i in range(0, len(lines), 3):
+            seq_line = lines[i+1].strip()
+            seq_line = seq_line.replace('T', 'U').replace('N', 'A')
+
+            probMatr = processFastaFile(seq_line)
+            probMatr_ND = nd(seq_line, seq_length)
+            probMatr_DPCP = dpcp(seq_line) / 101
+
+            probMatr_NDCP = np.column_stack((probMatr, probMatr_ND))
+            probMatr_NDPCP = np.column_stack((probMatr_NDCP, probMatr_DPCP))
+
+            kmer1 = coden(seq_line, 1, tris1)
+            kmer2 = coden(seq_line, 2, tris2)
+            kmer3 = coden(seq_line, 3, tris3)
+            Kmer = np.hstack((kmer1, kmer2, kmer3))
+
+            Feature_Encoding = np.column_stack((probMatr_NDPCP, Kmer))
+            dataX.append(Feature_Encoding)
+
+    dataX = np.stack(dataX, axis=0)
+    print(f"[INFO] Encoded {dataX.shape[0]} sequences for {protein}, shape: {dataX.shape}")
     return dataX
+
+
+
+def dealwithdata2(seq):
+    line = seq
+    seq_length = 101
+    tris1 = get_1_trids()
+    tris2 = get_2_trids()
+    tris3 = get_3_trids()
+    # tris4 = get_4_trids()
+    dataX = []
+    dataY = []
+    line = line.replace('T', 'U').replace('N', 'A').strip()
+    probMatr = processFastaFile(line)
+    probMatr_ND = nd(line,seq_length)
+    probMatr_NDCP = np.column_stack((probMatr,probMatr_ND))
+    probMatr_DPCP = dpcp(line)/101
+    probMatr_NDPCP = np.column_stack((probMatr_NDCP,probMatr_DPCP))
+    kmer1 = coden(line.strip(),1,tris1)
+    kmer2 = coden(line.strip(),2,tris2) 
+    kmer3 = coden(line.strip(),3,tris3) # (101, 64)
+    Kmer = np.hstack((kmer1,kmer2,kmer3)) # (101, 84)
+    Feature_Encoding = np.column_stack((probMatr_NDPCP,Kmer))  # (101, 99)
+    dataX.append(Feature_Encoding.tolist())
+    dataX = np.array(dataX)
+    
+    return dataX # (1, 101, 99)

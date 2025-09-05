@@ -18,12 +18,11 @@ from transformers import BertTokenizer, BertModel
 # ---------------------------------------------------------------------------
 # Third-party / project-specific utilities (assumed to exist in PYTHONPATH)
 # ---------------------------------------------------------------------------
-from utils.models.bridge import BridgeModel
-from utils.gen_Transformer_embedding import rbpformer_encode_sequences
-from utils.train_loop import train, validate, validate2, validate_without_sigmoid
-from utils.utils import read_csv, myDataset, myDataset2, param_num, split_dataset, seq2kmer,RBPInferDataset
-from utils.FeatureEncoding import dealwithdata,dealwithdata2
-from utils.motif_prior.motif_prior import get_motif_prior_matrix
+from utils.BRIDGE import BRIDGE
+from utils.gen_transformer_embedding import build_Transformer_embeddings
+from utils.train_loop import validate_without_sigmoid
+from utils.utils import RBPInferDataset
+from utils.FeatureEncoding import dealwithdata2
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -46,7 +45,7 @@ def read_fasta(fasta_path: Path) -> Tuple[List[str], List[str]]:
 
 
 def open_output(out_path: os.PathLike | str) -> Path:
-    out_path = Path(out_path)              # ← 统一成 Path
+    out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     return out_path
 
@@ -103,9 +102,9 @@ class ModelHub:
         self.transformer = (
             BertModel.from_pretrained(transformer_path).to(device).eval()
         )
-        self.bridge_cache: Dict[str, BridgeModel] = {}
+        self.bridge_cache: Dict[str, BRIDGE] = {}
 
-    def load_bridge(self, model_dir: Path, filename_stem: str) -> BridgeModel | None:
+    def load_bridge(self, model_dir: Path, filename_stem: str) -> BRIDGE | None:
         """Return cached BRIDGE model or load it from disk."""
         if filename_stem in self.bridge_cache:
             return self.bridge_cache[filename_stem]
@@ -115,7 +114,7 @@ class ModelHub:
             logging.warning("Model not found for %s → skip", filename_stem)
             return None
 
-        model = BridgeModel().to(self.device)
+        model = BRIDGE().to(self.device)
         model.load_state_dict(torch.load(model_file, map_location=self.device))
         model.eval()
         self.bridge_cache[filename_stem] = model
@@ -158,16 +157,17 @@ def process_sequences(
                 continue
 
             modified_seq = substitute_base(seq, idx0, alt)
-
-            embed, _ = rbpformer_encode_sequences(
-                [modified_seq], hub.transformer, hub.tokenizer, hub.device, k=1
+            test_emb, _ = build_Transformer_embeddings(
+                sequences=[modified_seq],
+                transformer_path=str(args.Transformer_path),
+                device=hub.device,
+                k=1,
+                transpose_to_ch_first=True
             )
-            test_emb = embed.transpose([0, 2, 1])
-            test_attn = np.zeros((len(seq), 101, 103))              
+            test_attn = np.zeros((len(seq), 101, 103))  
             struct = np.zeros((1, 1, 101))
             motif = np.zeros((1, 1, 101))
             bio_chem = dealwithdata2(modified_seq).transpose([0, 2, 1])
-            
             dataset = RBPInferDataset(
                 embedding=test_emb, attn=test_attn, struct=struct,
                 motif=motif, biochem=bio_chem

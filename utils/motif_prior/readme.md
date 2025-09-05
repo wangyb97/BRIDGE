@@ -1,17 +1,35 @@
-## Motif Prior Requirements
+## 🧬 Motif Prior Setup
 
-This module requires the **MEME** to be installed and accessible in your environment.  
-Please ensure that the `meme` binary and its dependencies are properly configured in your system's `PATH`.
+BRIDGE supports two modes for incorporating **motif prior information** into the prediction pipeline:
 
-Since generating motif priors can be time-consuming, we provide **precomputed motif prior files** to facilitate fast and reproducible analysis.  
-You can download them from the following repository:
+---
 
-**🔗 [https://doi.org/10.6084/m9.figshare.29819843.v1](https://doi.org/10.6084/m9.figshare.29819843.v1)**
+### 🛠️ Option 1: Generate Motif Priors (Requires MEME)
 
-After downloading, extract the contents into the appropriate directory:
+To generate motif priors from input sequences, you must make sure:
+
+- The `meme` binary and its dependencies are correctly installed
+- Your `PATH` includes the motif generation script:
+
+```bash
+export PATH="/YourPath/BRIDGE/utils/motif_prior:$PATH"
+```
+
+💡 **Note**: Motif generation can be time-consuming, especially on large datasets. Use this option if you wish to derive custom priors from your own data.
+
+---
+
+### ⚡ Option 2: Use Precomputed Motif Priors (Recommended)
+
+To streamline your workflow, we provide **precomputed motif prior files** covering all 261 RBP datasets across six human cell lines. These files are ready to use for downstream analysis.
+
+📥 **Download Link**:
+🔗 [https://doi.org/10.6084/m9.figshare.29819843.v2](https://doi.org/10.6084/m9.figshare.29819843.v2)
+
+After downloading, extract the contents into the following directory:
 
 ```
-utils/motif_prior/out/
+BRIDGE/utils/motif_prior/output/
 ```
 
-Make sure this directory is correctly populated before executing any downstream analyses that rely on motif prior inputs.
+Ensure this folder is properly populated **before** running BRIDGE modules that rely on motif prior integration.
