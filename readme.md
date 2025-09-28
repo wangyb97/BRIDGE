@@ -196,7 +196,7 @@ python main.py \
 ### 4) Variant-Aware Scoring
 
 ```bash
-python variant_aware_GWAS.py \
+python variant_aware.py \
     --after_variation \
     --fasta_sequence_path ./dataset_variant/AUH_HepG2.fa \
     --Transformer_path ./RBPformer \
